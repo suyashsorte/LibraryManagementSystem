@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LibraryMvc.Models.mvcAuthorModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("AddOrEdit","Author")" class="btn btn-default"><i class="fa fa-plus"></i> Create New</a>
+</p>
+<table class="table" class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNo)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+
+                <a href="@Url.Action("AddOrEdit","Author",new {id = item.Id })" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
+                @*<a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i>Delete</a>*@
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '') {
+                alertify.success(successMessage)
+            }
+        })
+
+        function Delete(id) {
+            alertify.confirm("web API CRUD Operation", "Are you sure to delete this Record?", function () {
+                window.location.href = '@Url.Action("Delete","Author")/' + id;
+            }, null);
+        }
+    </script>
+
+}
